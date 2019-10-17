@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.NetworkUtils
 import com.irozon.sneaker.Sneaker
 import com.maple.baselibrary.R
 import com.maple.baselibrary.utils.Event
@@ -14,7 +15,26 @@ import com.maple.baselibrary.utils.EventBusUtils
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(),IVIew {
+
+
+    /**
+     * 布局
+     */
+    abstract fun getLayoutId(): Int
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initData(savedInstanceState: Bundle?):Unit
+
+
+    /**
+     * 设置布局文件
+     */
+    open fun setContentLayout(){
+        setContentView(getLayoutId())
+    }
 
     /**
      * 是否使用EventBus,默认不使用
@@ -22,11 +42,17 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun hasUsedEventBus(): Boolean = false
 
 
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentLayout()
         if (hasUsedEventBus()) {
             EventBusUtils.register(this)
         }
+        initData(savedInstanceState)
     }
 
 
@@ -73,9 +99,9 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun <T> onStickyEventBusDispense(event: Event<T>) {}
 
 
-
-
-
+    /**
+     * 顶部提示消息
+     */
     fun showTopMessage(msg:String?){
         if(!TextUtils.isEmpty(msg)){
             val sneaker = Sneaker.with(this) // Activity, Fragment or ViewGroup

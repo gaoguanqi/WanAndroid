@@ -1,4 +1,4 @@
-package com.maple.baselibrary.ext
+package com.maple.baselibrary.extensions
 
 import android.text.Editable
 import android.text.TextWatcher

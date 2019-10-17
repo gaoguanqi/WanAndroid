@@ -47,4 +47,5 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.irozon.sneaker:sneaker:2.0.0'
     implementation 'com.blankj:utilcodex:1.25.9'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 }

@@ -1,4 +1,4 @@
-package com.maple.baselibrary.ext
+package com.maple.baselibrary.extensions
 
 import android.view.KeyEvent
 import android.view.View

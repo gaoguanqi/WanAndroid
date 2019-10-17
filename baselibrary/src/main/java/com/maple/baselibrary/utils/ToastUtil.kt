@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.ColorUtils
 import com.maple.baselibrary.R
 import com.blankj.utilcode.util.ToastUtils as Toast
 
-class ToastUtils {
+class ToastUtil {
     companion object {
         @JvmStatic
         fun showToast(s: String?) {
