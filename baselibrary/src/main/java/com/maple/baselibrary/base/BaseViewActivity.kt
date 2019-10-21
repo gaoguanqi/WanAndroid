@@ -19,7 +19,13 @@ abstract class BaseViewActivity<DB : ViewDataBinding, VM : BaseViewModel> : Base
 
     override fun setContentLayout() {
         binding = DataBindingUtil.setContentView(this, getLayoutId())
-        binding.executePendingBindings() //当数据改变时，调用executePendingBindings方法立即改变。
+        //当数据改变时，调用executePendingBindings方法立即改变。
+        binding.executePendingBindings()
+        //给binding加上感知生命周期，AppCompatActivity就是lifeOwner
+        binding.lifecycleOwner = this
+
+
+
     }
 
 
