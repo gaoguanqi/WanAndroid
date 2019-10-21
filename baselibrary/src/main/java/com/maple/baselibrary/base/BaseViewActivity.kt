@@ -2,18 +2,25 @@ package com.maple.baselibrary.base
 
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProviders
 
 
-abstract class BaseViewActivity<DB : ViewDataBinding, VM : BaseViewModel> :BaseActivity(){
+abstract class BaseViewActivity<DB : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
 
-    private lateinit var binding:DB
-    abstract fun getBindingVariable(): Int
-    abstract fun getViewModel(): VM
+    open lateinit var binding: DB
+
+    open val viewModel = lazy {
+        providerViewModel().let {
+            ViewModelProviders.of(this).get(providerViewModel())
+        }
+    }
+
+    abstract fun providerViewModel(): Class<VM>
 
     override fun setContentLayout() {
-        binding = DataBindingUtil.setContentView(this,getLayoutId())
+        binding = DataBindingUtil.setContentView(this, getLayoutId())
         binding.executePendingBindings() //当数据改变时，调用executePendingBindings方法立即改变。
-        binding.setVariable(getBindingVariable(), getViewModel())
     }
+
 
 }

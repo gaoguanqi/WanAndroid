@@ -20,6 +20,7 @@ android {
         kotlinOptions {
             jvmTarget = '1.8'
         }
+
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -50,7 +51,6 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
 
     implementation project(path: ':baselibrary')
-
 
 
     implementation 'me.jessyan:autosize:1.1.2'

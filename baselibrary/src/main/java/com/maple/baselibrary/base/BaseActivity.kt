@@ -3,19 +3,19 @@ package com.maple.baselibrary.base
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.NetworkUtils
 import com.irozon.sneaker.Sneaker
 import com.maple.baselibrary.R
 import com.maple.baselibrary.utils.Event
 import com.maple.baselibrary.utils.EventBusUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseActivity : AppCompatActivity(),IVIew {
+abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope(), IVIew {
 
 
     /**
@@ -26,13 +26,13 @@ abstract class BaseActivity : AppCompatActivity(),IVIew {
     /**
      * 初始化数据
      */
-    abstract fun initData(savedInstanceState: Bundle?):Unit
+    abstract fun initData(savedInstanceState: Bundle?): Unit
 
 
     /**
      * 设置布局文件
      */
-    open fun setContentLayout(){
+    open fun setContentLayout() {
         setContentView(getLayoutId())
     }
 
@@ -40,10 +40,6 @@ abstract class BaseActivity : AppCompatActivity(),IVIew {
      * 是否使用EventBus,默认不使用
      */
     open fun hasUsedEventBus(): Boolean = false
-
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,20 +98,20 @@ abstract class BaseActivity : AppCompatActivity(),IVIew {
     /**
      * 顶部提示消息
      */
-    fun showTopMessage(msg:String?){
-        if(!TextUtils.isEmpty(msg)){
+    fun showTopMessage(msg: String?) {
+        if (!TextUtils.isEmpty(msg)) {
             val sneaker = Sneaker.with(this) // Activity, Fragment or ViewGroup
-            val view = LayoutInflater.from(this).inflate(R.layout.sneaker_view,  sneaker.getView(), false)
+            val view =
+                LayoutInflater.from(this).inflate(R.layout.sneaker_view, sneaker.getView(), false)
             view.findViewById<TextView>(R.id.tv_message).text = msg
             sneaker.sneakCustom(view)
         }
     }
 
 
-
-
     override fun onDestroy() {
         super.onDestroy()
+        this.cancel()
         if (hasUsedEventBus()) {
             EventBusUtils.unregister(this)
         }
