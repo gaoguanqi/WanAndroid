@@ -2,7 +2,6 @@ package com.maple.wanandroid.view.activity
 
 import android.os.Bundle
 import com.maple.baselibrary.base.BaseViewActivity
-import com.maple.baselibrary.utils.LogUtils
 import com.maple.wanandroid.R
 import com.maple.wanandroid.databinding.ActivityLoginBinding
 import com.maple.wanandroid.viewmodel.LoginViewModel
@@ -12,16 +11,17 @@ class LoginActivity : BaseViewActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun providerViewModel(): Class<LoginViewModel> = LoginViewModel::class.java
 
+
+    override fun bindViewModel() {
+        binding.viewModel = viewModel
+    }
+
+
     override fun getLayoutId(): Int = R.layout.activity_login
 
     override fun initData(savedInstanceState: Bundle?) {
-
-        binding.account = et_account.text.toString()
-        binding.password = et_password.text.toString()
-
-        btn_login.setOnClickListener {
-            LogUtils.logGGQ("账号:${binding.account}---密码:${binding.password}")
-        }
+        viewModel.account.value = et_account.text.toString()
+        viewModel.password.value = et_password.text.toString()
     }
 
 

@@ -7,15 +7,13 @@ import androidx.lifecycle.ViewModelProviders
 
 abstract class BaseViewActivity<DB : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
 
-    open lateinit var binding: DB
+    abstract fun bindViewModel()
 
-    open val viewModel = lazy {
-        providerViewModel().let {
-            ViewModelProviders.of(this).get(providerViewModel())
-        }
-    }
+    open lateinit var binding: DB
+    open lateinit var viewModel: VM
 
     abstract fun providerViewModel(): Class<VM>
+
 
     override fun setContentLayout() {
         binding = DataBindingUtil.setContentView(this, getLayoutId())
@@ -23,9 +21,8 @@ abstract class BaseViewActivity<DB : ViewDataBinding, VM : BaseViewModel> : Base
         binding.executePendingBindings()
         //给binding加上感知生命周期，AppCompatActivity就是lifeOwner
         binding.lifecycleOwner = this
-
-
-
+        viewModel = ViewModelProviders.of(this).get(providerViewModel())
+        bindViewModel();
     }
 
 

@@ -3,14 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="account"
-            type="String" />
-
-        <variable
-            name="password"
-            type="String" />
+            name="viewModel"
+            type="com.maple.wanandroid.viewmodel.LoginViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -39,6 +34,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:text="@{viewModel.account,default = account}"
                 android:background="@null" />
 
             <EditText
@@ -48,6 +44,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:text="@{viewModel.password,default = password}"
                 android:background="@null" />
 
 
@@ -58,6 +55,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
+                android:onClick="@{()->viewModel.onLogin()}"
                 android:text="login" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
